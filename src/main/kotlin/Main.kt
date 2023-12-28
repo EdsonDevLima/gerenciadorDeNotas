@@ -15,7 +15,7 @@ class ControllerGrades{
     var name:String = ""
     var media:Float = 0f
     var yesOrNo:String = ""
-    lateinit var dataStudent:List<DataStudent>
+    var dataStudent:MutableList<DataStudent> = mutableListOf()
       fun registerGrades(){
         println("voce possui todas as 4 notas do ano? se sim digite ${"sim"}, se nao digite ${"nao"}" )
         yesOrNo = readln()
@@ -62,7 +62,7 @@ class ControllerGrades{
                  println("e por fim digite o seu nome")
                  name = readln()
                  media = nota1 + nota2 + nota3 + nota4 / 4
-                 dataStudent = listOf(DataStudent(nota1,nota2,nota3,nota4,name,media))
+                 dataStudent.add(DataStudent(nota1,nota2,nota3,nota4,name,media))
 
              }//condiçao do else
 
@@ -94,15 +94,45 @@ class ControllerGrades{
             println("esse nota nao é valida, digite novamente")
             StudentGrade = readln()
         }
-        if (StudentGrade != "nota1"){
-
+        println("digite o valor da nota")
+        var newGrade = readln().toFloat()
+        if (StudentGrade == "nota1"){
+            dataStudent.find { it.name == StudentName }?.n1 = newGrade
+            println("usuario alterado")
+            println(dataStudent.find { it.name == StudentName })
         }
-        if (StudentGrade != "nota2"){}
-        if (StudentGrade != "nota3"){}
-        if (StudentGrade != "nota4"){}
+        if (StudentGrade == "nota2"){
+            dataStudent.find { it.name == StudentName }?.n2 = newGrade
+            println("usuario alterado")
+            println(dataStudent.find { it.name == StudentName })
+        }
+        if (StudentGrade == "nota3"){
+            dataStudent.find { it.name == StudentName }?.n3 = newGrade
+            println("usuario alterado")
+            println(dataStudent.find { it.name == StudentName })
+        }
+        if (StudentGrade == "nota4"){
+            dataStudent.find { it.name == StudentName }?.n4 = newGrade
+            println("usuario alterado")
+            println(dataStudent.find { it.name == StudentName })
+        }
 
 
     }//final da alterStudent
+    fun deleteStudent(){
+        println("digite o nome do usuario que voce quer alterar")
+        var NameStutendDel:String = readln()
+        var StudentDel =  dataStudent.filter { it.name == NameStutendDel }
+        if (StudentDel[0].name != NameStutendDel ){
+            println("esse nome nao existe em nossa lista,digite novamente")
+            NameStutendDel = readln()
+        }
+        else{
+            dataStudent.removeIf{it.name == NameStutendDel}
+            println("aluno removido")
+            println(dataStudent)
+        }
+    }
 
 
 
@@ -113,4 +143,5 @@ val ControllerStudents = ControllerGrades()
     ControllerStudents.registerGrades()
     ControllerStudents.displayAllStudents()
     ControllerStudents.alterGrades()
+    ControllerStudents.deleteStudent()
 }
